@@ -52,4 +52,6 @@ jobs:
         push: true
         build-args: |
           "KUBECTL_VERSION=${{ matrix.kubectl-version }}"
+        tags: kubectl:${{ matrix.kubectl-version }}
+        registries: ${{ env.REGISTRY }}
   
