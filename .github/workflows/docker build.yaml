@@ -64,6 +64,6 @@ jobs:
         push: true
         build-args: |
           "KUBECTL_VERSION=${{ matrix.kubectl-version }}"
-        tags: ${{ steps.extract-metadata.outputs.tags }}
+        tags: "${{ steps.prepare-repository-name.outputs.repository }}:${{ matrix.kubectl-version }}"
         
   
