@@ -37,6 +37,18 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
+    - name: Prepare repository name
+      id: prepare-repository-name
+      run: |
+        repository=$REGISTRY/${{ github.repository }}
+        echo "repository=${repository,,}" >> $GITHUB_OUTPUT
+  
+    - name: Extract metadata (tags, labels) for Docker
+      id: extract-metadata
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ steps.prepare-repository-name.outputs.repository }}
+  
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
@@ -52,6 +64,6 @@ jobs:
         push: true
         build-args: |
           "KUBECTL_VERSION=${{ matrix.kubectl-version }}"
-        tags: kubectl:${{ matrix.kubectl-version }}
+        tags: ${{ steps.extract-metadata.outputs.tags }}
         
   
