@@ -25,11 +25,11 @@ jobs:
         set -x
         ls -lrt
         KUBECTL_VERSION=${{ steps.check_latest_version.outputs.kubectl_version }}
+        cd .github/workflows
         ls -lrt
         //check workspace files
         echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-        ls -lrt $GITHUB_WORKSPACE
-        sed -i '' 's/\]/,v1.28.0\]/' .github/workflows/docker_build.yaml
+        sed -i '' 's/\]/,v1.28.0\]/' docker_build.yaml
 
     - name: Commit and push if it changed
       run: |
