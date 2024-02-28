@@ -31,6 +31,7 @@ jobs:
 
 
     - name: Commit and push if it changed
+      GITHUB_TOKEN: ${{ github.token }}
       run: |
         KUBECTL_VERSION=${{ steps.check_latest_version.outputs.kubectl_version }}
         git config --global user.email "iamsebinsunny@gmail"
