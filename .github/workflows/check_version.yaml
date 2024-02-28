@@ -23,7 +23,10 @@ jobs:
     - name: Update file
       run: |
         KUBECTL_VERSION=${{ steps.check_latest_version.outputs.kubectl_version }}
+        pwd
         cd .github/workflows
+        pwd
+        ls -lrt
         sed -i '' 's/\]/,v1.28.0\]/' docker_build.yaml
 
     - name: Commit and push if it changed
