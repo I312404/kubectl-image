@@ -38,9 +38,7 @@ jobs:
         git diff --quiet && git diff --staged --quiet || git commit -m "Update kubectl version to $KUBECTL_VERSION"
         git push --set-upstream origin bump-$KUBECTL_VERSION
         git push
-      env:
-        GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-
+        
     # - name: Create PR
     #   run: |
     #     curl -X POST \

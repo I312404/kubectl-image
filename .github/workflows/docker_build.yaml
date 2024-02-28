@@ -21,7 +21,7 @@ jobs:
       matrix:
         kubectl-version: [v1.26.14,v1.27.11]
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
