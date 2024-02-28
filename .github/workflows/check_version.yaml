@@ -1,0 +1,36 @@
+name: Check kubectl Release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # Run every day at midnight
+
+jobs:
+  check-kubectl-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up kubectl
+      id: check_latest_version
+      run: |
+        KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+        echo "Latest kubectl version: $KUBECTL_VERSION"
+        echo "kubectl_version=$KUBECTL_VERSION" >> $GITHUB_OUTPUT
+
+    - name: Update file
+      run: |
+        KUBECTL_VERSION=$(echo ${{ steps.check_latest_version.outputs.kubectl_version }})
+        cd .github/workflows
+        sed -i '' 's/\]/,$KUBECTL_VERSION\]/' docker_build.yaml
+
+    - name: Commit and push if it changed
+      run: |
+        git config --global user.email "iamsebinsunny@gamil"
+        git config --global user.name "Sebin"
+        git config --global user.password ${{ secrets.GIT_TOKEN }}
+        git add -A
+        git diff --quiet && git diff --staged --quiet || git commit -m "Update kubectl version to $KUBECTL_VERSION"
+        git push
