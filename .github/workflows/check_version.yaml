@@ -30,7 +30,7 @@ jobs:
 
     - name: Commit and push if it changed
       run: |
-        git config --global user.email "iamsebinsunny@gamil"
+        git config --global user.email "iamsebinsunny@gmail"
         git config --global user.name "Sebin"
         git config --global user.password ${{ secrets.GIT_TOKEN }}
         git add -A
