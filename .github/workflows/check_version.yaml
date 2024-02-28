@@ -22,7 +22,6 @@ jobs:
 
     - name: Update file
       run: |
-        set -x
         KUBECTL_VERSION=${{ steps.check_latest_version.outputs.kubectl_version }}
         cd .github/workflows
         sed -i 's/\]/,v1.28.0\]/' docker_build.yaml
@@ -30,12 +29,14 @@ jobs:
 
     - name: Commit and push if it changed
       run: |
+        KUBECTL_VERSION=${{ steps.check_latest_version.outputs.kubectl_version }}
         git config --global user.email "iamsebinsunny@gmail"
         git config --global user.name "Sebin"
         git config --global user.password ${{ secrets.GIT_TOKEN }}
         git checkout -b bump-$KUBECTL_VERSION
         git add -A
         git diff --quiet && git diff --staged --quiet || git commit -m "Update kubectl version to $KUBECTL_VERSION"
+        git push --set-upstream origin bump-$KUBECTL_VERSION
         git push
 
     # - name: Create PR
