@@ -24,7 +24,7 @@ jobs:
       run: |
         KUBECTL_VERSION=${{ steps.check_latest_version.outputs.kubectl_version }}
         cd .github/workflows
-        sed -i '' 's/\]/,$KUBECTL_VERSION\]/' docker_build.yaml
+        sed -i '' 's/\]/,v1.28.0\]/' docker_build.yaml
 
     - name: Commit and push if it changed
       run: |
